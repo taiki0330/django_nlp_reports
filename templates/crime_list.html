@@ -1,0 +1,46 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件管理</title>
+
+    {% tailwind_css %}
+
+</head>
+<body class="bg-indigo-950 text-white">
+
+    {% comment %} {% block header %}
+    <h1 class="text-3xl py-5 px-6 border-b-2 border-gray-400 bg-green-700">{{ genre_name }}　|　事件リスト</h1>
+    {% endblock header %} {% endcomment %}
+
+    <div class="container py-5 px-auto m-auto">
+    {% block content %}
+    {% comment %} {% for genre in object_list %} {% endcomment %}
+    <a href="{% url 'crime_create' genre_id=genre_id %}" class="py-2 px-5 text-teal-400 border-2 border-green-500 rounded hover:opacity-70">新規作成</a>
+    {% comment %} {% endfor %} {% endcomment %}
+
+            {% for crime in object_list %}
+            {% comment %} {% for suspect in crime.suspectmodel_set.all %} {% endcomment %}
+            {% comment %} {% for victim in crime.victimmodel_set.all %} {% endcomment %}
+            <a href="{% url 'crime_detail' pk=crime.pk %}" class="block text-center mt-5 text-xl hover:opacity-70 border-2 border-gray-400 py-4 px-5">
+                <div class="flex justify-start items-center mb-3">
+                    <p class="mr-6">{{ crime.crime_name }}（{{ crime.crime_name_second }}）</p>
+                    <p class="text-sm mr-12">発生日時：{{ crime.crime_start_datetime }} ~ {{ crime.crime_end_datetime }}</p>
+                    <p class="text-sm">発生場所：{{ crime.crime_place }}</p>
+                </div>
+                <div class="flex justify-start">
+                    {% comment %} <p class="text-sm mr-10">被疑者：{{ suspect.name }}</p> {% endcomment %}
+                    {% comment %} <p class="text-sm">被害者：{{ victim.name }}</p> {% endcomment %}
+                </div>
+            </a>
+            {% comment %} {% endfor %} {% endcomment %}
+            {% comment %} {% endfor %} {% endcomment %}
+            {% endfor %}
+    {% endblock content %}
+
+    </div>
+</body>
+</html>

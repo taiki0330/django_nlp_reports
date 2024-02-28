@@ -1,0 +1,39 @@
+<!-- textgen/templates/generate_text.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text Generation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>Text Generation</h1>
+
+<form id="textForm">
+    <textarea id="inputText" name="inputText" rows="4" cols="50"></textarea>
+    <br>
+    <button type="submit">Generate Text</button>
+</form>
+
+<h2>Generated Text:</h2>
+<div id="generatedText"></div>
+
+<script>
+$(document).ready(function() {
+    $('#textForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/textgen/generate/',
+            data: { 'text': $('#inputText').val() },
+            dataType: 'json',
+            success: function(data) {
+                $('#generatedText').text(data.generated_text);
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

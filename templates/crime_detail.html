@@ -1,0 +1,53 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件管理</title>
+
+    {% tailwind_css %}
+
+</head>
+<body class="bg-indigo-950 text-white">
+
+    {% block header %}
+    <h1 class="text-3xl py-5 px-6 border-b-2 border-gray-400 bg-green-700">事件詳細</h1>
+    {% endblock header %}
+
+    <div class="container py-5 px-auto m-auto">
+    {% block content %}
+
+    <a href="{% url 'generate' pk=object.pk %}" class="py-2 px-5 text-teal-400 border-2 border-green-500 rounded hover:opacity-70">自動生成</a>
+    <div class="mt-8">
+        <h2>罪名：{{ object.crime_name }}（{{ object.crime_name_second }}）</h2>
+        <p>発生日時: {{ object.crime_datetime|date:"Y-m-d H:i" }}</p>
+        <p>発生場所: {{ object.crime_place }}</p>
+        <p>犯罪の概要: {{ object.crime_fact }}</p>
+        <h3 class="mt-9">被疑者の情報:</h3>
+        {% for suspect in object.suspectmodel_set.all %}
+            <div>
+                <p>名前: {{ suspect.name }}</p>
+                <p>本籍地: {{ suspect.honseki }}</p>
+                <p>住所: {{ suspect.address }}</p>
+                <p>職業: {{ suspect.job }}</p>
+                <p>誕生日: {{ suspect.birthday|date:"Y-m-d" }}</p>
+            </div>
+        {% endfor %}
+        <h3 class="mt-9">被害者の情報:</h3>
+        {% for victim in object.victimmodel_set.all %}
+            <div>
+                <p>名前: {{ victim.name }}</p>
+                <p>住所: {{ victim.address }}</p>
+                <p>職業: {{ victim.job }}</p>
+                <p>誕生日: {{ victim.birthday|date:"Y-m-d" }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% endblock content %}
+
+    </div>
+</body>
+</html>

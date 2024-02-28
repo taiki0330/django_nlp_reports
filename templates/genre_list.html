@@ -1,0 +1,28 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件管理</title>
+
+    {% tailwind_css %}
+
+</head>
+<body class="bg-indigo-950 text-white">
+
+    {% block header %}
+    <h1 class="text-3xl py-5 px-6 border-b-2 border-gray-400 bg-green-700">事件管理</h1>
+    {% endblock header %}
+
+    <div class="container py-5 px-auto m-auto">
+    {% block content %}
+            {% for genre in object_list %}
+            <a href="{% url 'crimes' genre_id=genre.pk %}" class="block text-center mt-5 text-2xl hover:opacity-70">{{ genre.genre_name }}</a>
+            {% endfor %}
+    {% endblock content %}
+
+    </div>
+</body>
+</html>

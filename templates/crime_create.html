@@ -1,0 +1,99 @@
+{% comment %} {% load static tailwind_tags %} {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件管理</title>
+
+    {% comment %} {% tailwind_css %} {% endcomment %}
+
+</head>
+<body class="bg-indigo-950 text-white">
+
+    {% block header %}
+    <h1 class="text-3xl py-5 px-6 border-b-2 border-gray-400 bg-green-700">事件管理</h1>
+    {% endblock header %}
+
+    <div class="container py-5 px-auto m-auto">
+    {% block content %}
+
+    <h2>新規作成</h2>
+    <form method="post">{% csrf_token %}
+    {% comment %} {{ form.as_p }}  <!-- フォームをパラグラフタグで表示 --> {% endcomment %}
+    <div class="flex items-center mt-8">
+        <label for="crime_name" class="mr-3">罪名</label>
+        <input type="text" name="crime_name" id="crime_name" class="mr-8">
+        <label for="crime_name_second" class="mr-3">中種別</label>
+        <input type="text" name="crime_name_second" id="crime_name_second">
+    </div>
+    <div class="">
+        <label for="crime_start_date">発生日時</label>
+        発生日<input type="date" name="crime_start_date" id="crime_start_date">
+        発生時間<input type="time" name="crim_start_time" id="crim_start_time"> ~
+        発生日<input type="date" name="crime_end_date" id="crime_end_date">
+        発生時間<input type="time" name="crime_end_time" id="time">
+    </div>
+    <div class="">
+        <label for="crime_place">発生場所</label>
+        <input type="text" name="crime_place" id="crime_place" class="w-4/5">
+    </div>
+    <div class="">
+        <label for="crime_fact">概要</label>
+        <textarea name="crime_fact" id="crime_fact" cols="30" rows="10"></textarea>
+    </div>
+    <button type="submit" class="py-2 px-5 text-teal-400 border-2 border-green-500 rounded hover:opacity-70">Save</button>
+    </form>
+
+    {% endblock content %}
+
+    <form action="">
+        <p>被疑者</p>
+        <div class="">
+            <label for="honseki">本籍</label>
+            <input type="text" name="honseki" id="honseki">
+        </div>
+        <div class="">
+            <label for="address">住居</label>
+            <input type="text" name="address" id="address">
+        </div>
+        <div class="">
+            <label for="job">職業</label>
+            <input type="text" name="job" id="job">
+        </div>
+        <div class="">
+            <label for="name">氏名</label>
+            <input type="text" name="name" id="name">
+        </div>
+        <div class="">
+            <label for="birthday">生年月日</label>
+            <input type="text" name="birthday" id="birthday">
+        </div>
+    </form>
+
+
+    <form action="">
+        <p>被害者</p>
+        <div class="">
+            <label for="address">住居</label>
+            <input type="text" name="address" id="address">
+        </div>
+        <div class="">
+            <label for="job">職業</label>
+            <input type="text" name="job" id="job">
+        </div>
+        <div class="">
+            <label for="name">氏名</label>
+            <input type="text" name="name" id="name">
+        </div>
+        <div class="">
+            <label for="birthday">生年月日</label>
+            <input type="text" name="birthday" id="birthday">
+        </div>
+    </form>
+
+
+
+</body>
+</html>
