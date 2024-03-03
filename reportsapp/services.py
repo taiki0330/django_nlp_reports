@@ -1,4 +1,11 @@
 import re
+from pykakasi import kakasi
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense, LSTM
+from keras.callbacks import LambdaCallback
+from keras.layers import GRU
+import matplotlib.pyplot as plt
 
 # with open("/Users/matsuzakidaiki/anaconda3/envs/django_nlp_env/reportsproject/reportsapp/reports/genba.txt", mode="r", encoding="utf-8") as f:  # ファイルの読み込み
 #     text_original = f.read()
@@ -21,7 +28,7 @@ for novel in novels:
 print("文字数:", len(text))
 print(text)
 
-from pykakasi import kakasi
+
 
 seperator = "。"  # 。をセパレータに指定
 sentence_list = text.split(seperator)  # セパレーターを使って文章をリストに分割する
@@ -39,11 +46,11 @@ for sentence in sentence_list:
     
 n_rnn = 10  # 時系列の数
 batch_size = 128
-epochs = 5
+epochs = 2
 n_mid = 256  # 中間層のニューロン数
 
 
-import numpy as np
+
 
 # インデックスと文字で辞書を作成
 chars = sorted(list(set(text)))  # setで文字の重複をなくし、各文字をリストに格納する
@@ -74,8 +81,7 @@ print("xの形状", x.shape)
 print("tの形状", t.shape)
 
 
-from keras.models import Sequential
-from keras.layers import Dense, LSTM
+
 
 model_lstm = Sequential()
 model_lstm.add(LSTM(n_mid, input_shape=(n_rnn, len(chars))))
@@ -84,8 +90,8 @@ model_lstm.compile(loss='categorical_crossentropy', optimizer="adam")
 print(model_lstm.summary())
 
 
-from keras.callbacks import LambdaCallback
- 
+
+
 def on_epoch_end(epoch, logs):
     print("エポック: ", epoch)
 
@@ -124,7 +130,6 @@ history_lstm = model_lstm.fit(x, t,
                     callbacks=[epock_end_callback])
 
 
-from keras.layers import GRU
 
 model_gru = Sequential()
 model_gru.add(GRU(n_mid, input_shape=(n_rnn, len(chars))))
@@ -138,7 +143,7 @@ history_gru = model_gru.fit(x, t,
                     epochs=epochs,
                     callbacks=[epock_end_callback])
 
-import matplotlib.pyplot as plt
+
 
 loss_lstm = history_lstm.history['loss']
 loss_gru = history_gru.history['loss']

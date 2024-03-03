@@ -59,23 +59,17 @@ class VictimDetail(DetailView):
     template_name = 'victim_detail.html'
 
 
+from .forms import TextInputForm
+from .utils import process_text
 
 class GenerateTextView(FormView):
-    template_name = 'reportsapp/generate.html'
+    template_name = 'generate.html'
     form_class = TextInputForm
-    success_url = reverse_lazy('generate_text')  # フォーム送信後にリダイレクトするURL
+    success_url = reverse_lazy('generate')  # 'generate'はこのビューを指すURLのname属性
 
     def form_valid(self, form):
-        # フォームのデータは有効です
-        input_text = form.cleaned_data['input_text']
-        # ここで入力テキストを加工するロジックを実装
-        # 例: self.extra_context = {'generated_text': input_text + " processed"}
-        self.extra_context = {'generated_text': input_text + " processed"}  # 簡易的な加工例
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        # 既存のコンテキストデータを取得し、必要に応じてそれに追加します
-        context = super().get_context_data(**kwargs)
-        if self.extra_context is not None:
-            context.update(self.extra_context)
-        return context
+        # フォームのデータが有効な場合に呼ばれる
+        user_text = form.cleaned_data['user_text']
+        processed_text = process_text(user_text)
+        # 処理結果をテンプレートに渡す
+        return self.render_to_response(self.get_context_data(processed_text=processed_text))

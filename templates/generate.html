@@ -1,39 +1,22 @@
-<!-- textgen/templates/generate_text.html -->
+<!-- templates/generate.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Text Generation</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>テキスト生成</title>
 </head>
 <body>
+    <h1>テキストを入力してください</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_user_text">テキストを入力してください</label>
+        <input type="text" name="user_text" id="id_user_text" placeholder="ここにテキストを入力" value="{{ form.user_text.value|default_if_none:'' }}" />
+        <button type="submit">送信</button>
+    </form>
 
-<h1>Text Generation</h1>
-
-<form id="textForm">
-    <textarea id="inputText" name="inputText" rows="4" cols="50"></textarea>
-    <br>
-    <button type="submit">Generate Text</button>
-</form>
-
-<h2>Generated Text:</h2>
-<div id="generatedText"></div>
-
-<script>
-$(document).ready(function() {
-    $('#textForm').on('submit', function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '/textgen/generate/',
-            data: { 'text': $('#inputText').val() },
-            dataType: 'json',
-            success: function(data) {
-                $('#generatedText').text(data.generated_text);
-            }
-        });
-    });
-});
-</script>
-
+    {% if processed_text %}
+        <h2>処理結果</h2>
+        <p>{{ processed_text }}</p>
+    {% endif %}
 </body>
 </html>
